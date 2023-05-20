@@ -23,15 +23,30 @@ class DataTransform {
     return stringToCreate
   }
 
+  public fillPositionArray(resultOperation: number, index: number) {
+    storage.arrayASCIIPositions.push(
+      (resultOperation.toString().length - 1) * (index + 21)
+    )
+  }
+
   public multiWordsWithKW() {
     storage.arrayASCIIPositions = []
 
     storage.arrayASCIIWords = storage.arrayASCIIWords.map(
       (itemASCII, index) => {
-        const resultOperation = itemASCII * storage.arrayASCIIKeyWord[index]
-        storage.arrayASCIIPositions.push(
-          (resultOperation.toString().length - 1) * (index + 21)
-        )
+        let multiplier = storage.arrayASCIIKeyWord[index]
+        // words > keywords
+        if (storage.arrayASCIIKeyWord[index] === undefined) {
+          multiplier = index * 65
+        }
+        // keywords > words
+        if (index === storage.arrayASCIIWords.length - 1) {
+          multiplier = index * index * 60
+        }
+
+        // default (equal length)
+        const resultOperation = itemASCII * multiplier
+        this.fillPositionArray(resultOperation, index)
         return resultOperation
       }
     )
