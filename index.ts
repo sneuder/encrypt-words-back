@@ -9,6 +9,7 @@ const PORT = 8080
 // middlewares
 app.use(express.json())
 app.use('/api', router)
+
 // initializing routes
 routes(router)
 
