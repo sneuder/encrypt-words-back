@@ -1,4 +1,6 @@
+import storage from './data/storage'
 import dataTransform from './data/dataTransform'
+import arrayManipulation from './data/arrayManipulation'
 
 interface ArrayToProcess {
   key: 'arrayASCIIWords' | 'arrayASCIIKeyWord'
@@ -7,16 +9,6 @@ interface ArrayToProcess {
 }
 
 class Encrypt {
-  // private encryptedWord: string = ''
-
-  private arrayASCIIWords: number[] = []
-  private arrayASCIIKeyWord: number[] = []
-  private arrayASCIIPosition: number[] = []
-
-  private stringASCIIWords: string = ''
-  private stringASCIIKeyWord: string = ''
-  // private stringASCIIPosition: string = ''
-
   public process(textToConvert: string, keyWords: string) {
     const arraysToProcess: ArrayToProcess[] = [
       {
@@ -36,62 +28,36 @@ class Encrypt {
       const textASCIIArray = dataTransform.fromTextToASCIIArray(
         itemToProcess.value
       )
-      this[itemToProcess.key] = this.reorderArrayOfASCII(textASCIIArray)
-      this[itemToProcess.key] = this.splitArrayOfASCII(this[itemToProcess.key])
-    })
 
-    // reorder keyword again
-    this.arrayASCIIKeyWord = this.reorderArrayOfASCII(this.arrayASCIIKeyWord)
-    this.arrayASCIIKeyWord = this.splitArrayOfASCII(this.arrayASCIIKeyWord)
+      storage[itemToProcess.key] =
+        arrayManipulation.reorderArrayOfASCII(textASCIIArray)
 
-    // multiply words and keyword parts
-    this.multiWordsWithKW()
-
-    // from ascii to text
-    arraysToProcess.forEach((itemToProcess) => {
-      this[itemToProcess.string] = dataTransform.fromASCIIToText(
-        this[itemToProcess.string],
-        this[itemToProcess.key]
+      storage[itemToProcess.key] = arrayManipulation.splitArrayOfASCII(
+        storage[itemToProcess.key]
       )
     })
 
-    return this.joinEncryptWords()
-  }
+    // reorder keyword again
+    storage.arrayASCIIKeyWord = arrayManipulation.reorderArrayOfASCII(
+      storage.arrayASCIIKeyWord
+    )
 
-  private reorderArrayOfASCII(arrayASCII: number[]) {
-    let tempItem: number | null = null
+    storage.arrayASCIIKeyWord = arrayManipulation.splitArrayOfASCII(
+      storage.arrayASCIIKeyWord
+    )
 
-    return arrayASCII.map((itemASCII, index) => {
-      const pointer = index + 1
-      if (pointer % 2 === 0) return tempItem
+    // multiply words and keyword parts
+    dataTransform.multiWordsWithKW()
 
-      tempItem = itemASCII
-      return arrayASCII[pointer]
-    }) as number[]
-  }
-
-  private splitArrayOfASCII(arrayASCII: number[]) {
-    const middle = Math.ceil(arrayASCII.length / 2)
-    return [
-      ...arrayASCII.slice(middle, arrayASCII.length + 1),
-      ...arrayASCII.slice(0, middle),
-    ]
-  }
-
-  private multiWordsWithKW() {
-    this.arrayASCIIWords = this.arrayASCIIWords.map((itemASCII, index) => {
-      const resultOperation = itemASCII * this.arrayASCIIKeyWord[index]
-      this.saveWordPositions(resultOperation.toString().length)
-      return resultOperation
+    // from ascii to text
+    arraysToProcess.forEach((itemToProcess) => {
+      storage[itemToProcess.string] = dataTransform.fromASCIIToText(
+        storage[itemToProcess.string],
+        storage[itemToProcess.key]
+      )
     })
-  }
 
-  private saveWordPositions(positionValue: number) {
-    this.arrayASCIIPosition.push(positionValue)
-  }
-
-  private joinEncryptWords() {
-    return `${this.stringASCIIWords}.${this.stringASCIIKeyWord}.${this.arrayASCIIPosition}`
+    return storage.joinEncryptWords()
   }
 }
 

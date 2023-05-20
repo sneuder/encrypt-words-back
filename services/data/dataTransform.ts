@@ -1,3 +1,5 @@
+import storage from './storage'
+
 class DataTransform {
   public fromTextToASCIIArray(textToConvert: string) {
     return textToConvert
@@ -19,6 +21,16 @@ class DataTransform {
       .join('')
 
     return stringToCreate
+  }
+
+  public multiWordsWithKW() {
+    storage.arrayASCIIWords = storage.arrayASCIIWords.map(
+      (itemASCII, index) => {
+        const resultOperation = itemASCII * storage.arrayASCIIKeyWord[index]
+        storage.arrayASCIIPosition.push(resultOperation.toString().length - 1)
+        return resultOperation
+      }
+    )
   }
 }
 
