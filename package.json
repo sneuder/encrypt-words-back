@@ -10,6 +10,9 @@
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
   "author": "Sneuder",
   "license": "ISC",
   "dependencies": {
