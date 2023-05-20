@@ -1,59 +1,48 @@
+import ArrayToProcess from '../interface/ArrayToProcess'
+
 import storage from './data/storage'
 import dataTransform from './data/dataTransform'
 import arrayManipulation from './data/arrayManipulation'
 
-interface ArrayToProcess {
-  key: 'arrayASCIIWords' | 'arrayASCIIKeyWord'
-  value: string
-  string: 'stringASCIIWords' | 'stringASCIIKeyWord'
-}
-
 class Encrypt {
-  public process(textToConvert: string, keyWords: string) {
-    const arraysToProcess: ArrayToProcess[] = [
-      {
-        key: 'arrayASCIIWords',
-        value: textToConvert,
-        string: 'stringASCIIWords',
-      },
-      {
-        key: 'arrayASCIIKeyWord',
-        value: keyWords,
-        string: 'stringASCIIKeyWord',
-      },
-    ]
+  public process(textToConvert: string, arrayWords: string) {
+    const arraysToProcess: ArrayToProcess[] = storage.arrayToProcessToASCII(
+      textToConvert,
+      arrayWords
+    )
 
-    // same process both words and keyword
+    // same process both words and arrayword
     arraysToProcess.forEach((itemToProcess) => {
       const textASCIIArray = dataTransform.fromTextToASCIIArray(
         itemToProcess.value
       )
 
-      storage[itemToProcess.key] =
+      storage[itemToProcess.array] =
         arrayManipulation.reorderArrayOfASCII(textASCIIArray)
 
-      storage[itemToProcess.key] = arrayManipulation.splitArrayOfASCII(
-        storage[itemToProcess.key]
+      storage[itemToProcess.array] = arrayManipulation.splitArrayOfASCII(
+        storage[itemToProcess.array]
       )
     })
 
-    // reorder keyword again
-    storage.arrayASCIIKeyWord = arrayManipulation.reorderArrayOfASCII(
-      storage.arrayASCIIKeyWord
+    // reorder arrayword again
+    storage.arrayASCIIWords = arrayManipulation.reorderArrayOfASCII(
+      storage.arrayASCIIWords
     )
 
-    storage.arrayASCIIKeyWord = arrayManipulation.splitArrayOfASCII(
-      storage.arrayASCIIKeyWord
+    storage.arrayASCIIWords = arrayManipulation.splitArrayOfASCII(
+      storage.arrayASCIIWords
     )
 
-    // multiply words and keyword parts
+    // multiply words and arrayword parts
     dataTransform.multiWordsWithKW()
 
     // from ascii to text
-    arraysToProcess.forEach((itemToProcess) => {
+    const arrayToText = storage.arrayToProcessToText()
+    arrayToText.forEach((itemToProcess) => {
       storage[itemToProcess.string] = dataTransform.fromASCIIToText(
         storage[itemToProcess.string],
-        storage[itemToProcess.key]
+        storage[itemToProcess.array]
       )
     })
 

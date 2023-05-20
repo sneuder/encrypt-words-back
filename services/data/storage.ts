@@ -1,3 +1,5 @@
+import ArrayToProcess from '../../interface/ArrayToProcess'
+
 class Storage {
   private _encryptedWord: string = ''
 
@@ -7,6 +9,9 @@ class Storage {
 
   private _stringASCIIWords: string = ''
   private _stringASCIIKeyWord: string = ''
+  private _stringASCIIPositions: string = ''
+
+  private _arrayToProcessToASCII: ArrayToProcess[] = []
 
   public set encryptedWord(value: string) {
     this._encryptedWord = value
@@ -56,8 +61,49 @@ class Storage {
     return this._stringASCIIKeyWord
   }
 
+  public set stringASCIIPositions(value: string) {
+    this._stringASCIIPositions = value
+  }
+
+  public get stringASCIIPositions(): string {
+    return this._stringASCIIPositions
+  }
+
+  public arrayToProcessToASCII(
+    textToConvert: string,
+    keyWord: string
+  ): ArrayToProcess[] {
+    this._arrayToProcessToASCII = [
+      {
+        array: 'arrayASCIIWords',
+        value: textToConvert,
+        string: 'stringASCIIWords',
+      },
+      {
+        array: 'arrayASCIIKeyWord',
+        value: keyWord,
+        string: 'stringASCIIKeyWord',
+      },
+    ]
+
+    return this._arrayToProcessToASCII
+  }
+
+  public arrayToProcessToText(): ArrayToProcess[] {
+    const firtPart = this._arrayToProcessToASCII
+    return firtPart.concat({
+      array: 'arrayASCIIPosition',
+      string: 'stringASCIIPositions',
+      value: '',
+    })
+  }
+
   public joinEncryptWords() {
     return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWord}.${storage.arrayASCIIPosition}`
+  }
+
+  public organizeDecryptWords() {
+    return { words: '', keyword: '' }
   }
 }
 
