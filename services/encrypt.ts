@@ -1,6 +1,9 @@
+import dataTransform from './data/dataTransform'
+
 interface ArrayToProcess {
   key: 'arrayASCIIWords' | 'arrayASCIIKeyWord'
   value: string
+  string: 'stringASCIIWords' | 'stringASCIIKeyWord'
 }
 
 class Encrypt {
@@ -8,21 +11,31 @@ class Encrypt {
 
   private arrayASCIIWords: number[] = []
   private arrayASCIIKeyWord: number[] = []
-  // private arrayASCIIPosition: number[] = []
+  private arrayASCIIPosition: number[] = []
 
-  // private stringASCIIWords: string = ''
-  // private stringASCIIKeyWord: string = ''
+  private stringASCIIWords: string = ''
+  private stringASCIIKeyWord: string = ''
   // private stringASCIIPosition: string = ''
 
-  process(textToConvert: string, keyWords: string) {
+  public process(textToConvert: string, keyWords: string) {
     const arraysToProcess: ArrayToProcess[] = [
-      { key: 'arrayASCIIWords', value: textToConvert },
-      { key: 'arrayASCIIKeyWord', value: keyWords },
+      {
+        key: 'arrayASCIIWords',
+        value: textToConvert,
+        string: 'stringASCIIWords',
+      },
+      {
+        key: 'arrayASCIIKeyWord',
+        value: keyWords,
+        string: 'stringASCIIKeyWord',
+      },
     ]
 
     // same process both words and keyword
     arraysToProcess.forEach((itemToProcess) => {
-      const textASCIIArray = this.fromTextToASCIIArray(itemToProcess.value)
+      const textASCIIArray = dataTransform.fromTextToASCIIArray(
+        itemToProcess.value
+      )
       this[itemToProcess.key] = this.reorderArrayOfASCII(textASCIIArray)
       this[itemToProcess.key] = this.splitArrayOfASCII(this[itemToProcess.key])
     })
@@ -34,13 +47,15 @@ class Encrypt {
     // multiply words and keyword parts
     this.multiWordsWithKW()
 
-    return this.arrayASCIIWords
-  }
+    // from ascii to text
+    arraysToProcess.forEach((itemToProcess) => {
+      this[itemToProcess.string] = dataTransform.fromASCIIToText(
+        this[itemToProcess.string],
+        this[itemToProcess.key]
+      )
+    })
 
-  private fromTextToASCIIArray(textToConvert: string) {
-    return textToConvert
-      .split('')
-      .map((_character, index) => textToConvert.charCodeAt(index))
+    return this.joinEncryptWords()
   }
 
   private reorderArrayOfASCII(arrayASCII: number[]) {
@@ -64,22 +79,19 @@ class Encrypt {
   }
 
   private multiWordsWithKW() {
-    // less
-    // this.arrayASCIIWords = this.arrayASCIIWords.map((itemASCII, index) => {
-    //   if (this.arrayASCIIKeyWord.length - 1 === index) {
-    //     const partialArray = this.arrayASCIIKeyWord.slice(
-    //       index,
-    //       this.arrayASCIIKeyWord.length + 1
-    //     )
-    //     partialArray.forEach((itemPartial) => (itemASCII *= itemPartial))
-    //     return itemASCII
-    //   }
-    //   return itemASCII * this.arrayASCIIKeyWord[index]
-    // })
-    // equal
-    // this.arrayASCIIWords = this.arrayASCIIWords.map((itemASCII, index) => {
-    //   return itemASCII * this.arrayASCIIKeyWord[index]
-    // })
+    this.arrayASCIIWords = this.arrayASCIIWords.map((itemASCII, index) => {
+      const resultOperation = itemASCII * this.arrayASCIIKeyWord[index]
+      this.saveWordPositions(resultOperation.toString().length)
+      return resultOperation
+    })
+  }
+
+  private saveWordPositions(positionValue: number) {
+    this.arrayASCIIPosition.push(positionValue)
+  }
+
+  private joinEncryptWords() {
+    return `${this.stringASCIIWords}.${this.stringASCIIKeyWord}.${this.arrayASCIIPosition}`
   }
 }
 
