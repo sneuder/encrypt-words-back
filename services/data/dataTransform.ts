@@ -23,6 +23,8 @@ class DataTransform {
     return stringToCreate
   }
 
+  // public fromTextToASCII(stringToCreate: string, targetArrayASCII: number[]) {}
+
   public fillPositionArray(resultOperation: number, index: number) {
     storage.arrayASCIIPositions.push(
       (resultOperation.toString().length - 1) * (index + 21)
@@ -41,7 +43,8 @@ class DataTransform {
         }
         // keywords > words
         if (index === storage.arrayASCIIWords.length - 1) {
-          multiplier = index * index * 60
+          console.log(storage.arrayASCIIWords)
+          multiplier = (index + 1) * (index + 1) * 60
         }
 
         // default (equal length)
