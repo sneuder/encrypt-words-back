@@ -24,10 +24,14 @@ class DataTransform {
   }
 
   public multiWordsWithKW() {
+    storage.arrayASCIIPositions = []
+
     storage.arrayASCIIWords = storage.arrayASCIIWords.map(
       (itemASCII, index) => {
         const resultOperation = itemASCII * storage.arrayASCIIKeyWord[index]
-        storage.arrayASCIIPosition.push(resultOperation.toString().length - 1)
+        storage.arrayASCIIPositions.push(
+          (resultOperation.toString().length - 1) * (index + 21)
+        )
         return resultOperation
       }
     )

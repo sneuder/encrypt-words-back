@@ -1,7 +1,7 @@
 export type ArrayStorage =
   | 'arrayASCIIWords'
   | 'arrayASCIIKeyWord'
-  | 'arrayASCIIPosition'
+  | 'arrayASCIIPositions'
 
 export type StringStorage =
   | 'stringASCIIWords'

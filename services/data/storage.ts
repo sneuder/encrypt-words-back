@@ -5,7 +5,7 @@ class Storage {
 
   private _arrayASCIIWords: number[] = []
   private _arrayASCIIKeyWord: number[] = []
-  private _arrayASCIIPosition: number[] = []
+  private _arrayASCIIPositions: number[] = []
 
   private _stringASCIIWords: string = ''
   private _stringASCIIKeyWord: string = ''
@@ -37,12 +37,12 @@ class Storage {
     return this._arrayASCIIKeyWord
   }
 
-  public set arrayASCIIPosition(value: number[]) {
-    this._arrayASCIIPosition = value
+  public set arrayASCIIPositions(value: number[]) {
+    this._arrayASCIIPositions = value
   }
 
-  public get arrayASCIIPosition(): number[] {
-    return this._arrayASCIIPosition
+  public get arrayASCIIPositions(): number[] {
+    return this._arrayASCIIPositions
   }
 
   public set stringASCIIWords(value: string) {
@@ -92,14 +92,14 @@ class Storage {
   public arrayToProcessToText(): ArrayToProcess[] {
     const firtPart = this._arrayToProcessToASCII
     return firtPart.concat({
-      array: 'arrayASCIIPosition',
+      array: 'arrayASCIIPositions',
       string: 'stringASCIIPositions',
       value: '',
     })
   }
 
   public joinEncryptWords() {
-    return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWord}.${storage.arrayASCIIPosition}`
+    return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWord}.${storage.stringASCIIPositions}`
   }
 
   public organizeDecryptWords() {
