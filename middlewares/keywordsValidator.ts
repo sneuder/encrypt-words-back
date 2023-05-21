@@ -1,12 +1,14 @@
 import { Response, Request, NextFunction } from 'express'
 import decrypt from '../services/decrypt'
+import msg from '../services/msg'
 
-function keywordsValidator(req: Request, _res: Response, next: NextFunction) {
-  const { keywords } = req.body
+function keywordsValidator(req: Request, res: Response, next: NextFunction) {
+  const { encrypted, keywords } = req.body
   const [_textASCII, textASCIIkeywords, _positionASCII] =
-    decrypt.separateComponets(keywords)
+    decrypt.separateComponets(encrypted)
 
   if (decrypt.validateKeywords(keywords, textASCIIkeywords)) next()
+  res.json(msg.send(false, 'not working'))
 }
 
 export default keywordsValidator

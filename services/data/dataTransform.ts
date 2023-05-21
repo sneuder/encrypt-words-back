@@ -8,22 +8,32 @@ class DataTransform {
   }
 
   public fromASCIIToText(stringToCreate: string, targetArrayASCII: number[]) {
+    let interval = 0
+
     stringToCreate = targetArrayASCII
       .map((itemASCII) => {
         const numbersCharCode = Array.from(String(itemASCII), Number)
         return numbersCharCode
-          .map((subItemASCII, index) => {
-            if (index % 2 === 0) return subItemASCII + 65 + index * 3
-            return String.fromCharCode(subItemASCII + 65 + index * 3)
+          .map((subItemASCII) => {
+            interval++
+            if (interval % 2 === 0) return subItemASCII
+
+            subItemASCII = this.rangeASCII(subItemASCII)
+            return String.fromCharCode(subItemASCII)
           })
           .join('')
       })
       .join('')
 
-    return stringToCreate
+    return stringToCreate.toLocaleLowerCase()
   }
 
-  // public fromTextToASCII(stringToCreate: string, targetArrayASCII: number[]) {}
+  public fromTextToASCII(targetArrayASCII: number[]) {
+    return targetArrayASCII.map((itemArrayASCII, index) => {
+      if ((index + 1) % 2 === 0) return itemArrayASCII
+      return itemArrayASCII.toString().charCodeAt(0)
+    })
+  }
 
   public fillPositionArray(resultOperation: number, index: number) {
     storage.arrayASCIIPositions.push(
@@ -43,7 +53,6 @@ class DataTransform {
         }
         // keywords > words
         if (index === storage.arrayASCIIWords.length - 1) {
-          console.log(storage.arrayASCIIWords)
           multiplier = (index + 1) * (index + 1) * 60
         }
 
@@ -53,6 +62,14 @@ class DataTransform {
         return resultOperation
       }
     )
+  }
+
+  public divideWordsWithKW() {}
+
+  private rangeASCII(numberASCII: number) {
+    const initialRange = 65 // 'A'
+    const finalRange = 90 // 'Z'
+    return (numberASCII % (finalRange - initialRange + 1)) + initialRange
   }
 }
 

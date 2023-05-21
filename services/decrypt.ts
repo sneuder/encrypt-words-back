@@ -2,6 +2,14 @@ import dataTransform from './data/dataTransform'
 import arrayManipulation from './data/arrayManipulation'
 
 class Decrypt {
+  public process(textEncrypted: string, keywords: string) {
+    // to all chars ASCII
+    const arrayASCIIKeyWords = dataTransform.fromTextToASCIIArray(keywords)
+    arrayASCIIKeyWords
+    const arrayASCIIWords = dataTransform.fromTextToASCIIArray(textEncrypted)
+    arrayASCIIWords
+  }
+
   public separateComponets(encryptedWord: string) {
     const textASCIISeparated = encryptedWord.split('.')
     return textASCIISeparated
@@ -10,13 +18,10 @@ class Decrypt {
   public validateKeywords(keyWordsToValidate: string, encryptKeyWords: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
-    for (let index = 0; index < 2; index++) {
-      arrayASCII = arrayManipulation.reorderArrayOfASCII(arrayASCII)
-      arrayASCII = arrayManipulation.splitArrayOfASCII(arrayASCII)
-    }
+    arrayASCII = arrayManipulation.reorderArrayOfASCII(arrayASCII)
+    arrayASCII = arrayManipulation.splitArrayOfASCII(arrayASCII)
 
     let textASCII = dataTransform.fromASCIIToText('', arrayASCII)
-    console.log(textASCII, encryptKeyWords)
     return textASCII === encryptKeyWords
   }
 }
