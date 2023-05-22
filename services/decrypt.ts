@@ -35,6 +35,7 @@ class Decrypt {
     )
 
     this.transformASCIIWord()
+
     return msg.object('decrypt', storage.stringASCIIWords)
   }
 
@@ -58,9 +59,23 @@ class Decrypt {
       storage.arrayASCIIKeyWords
     )
 
+    this.reverseArrayManipulations()
+
     storage.stringASCIIWords = dataTransform.fromASCIIArrayToText(
       storage.arrayASCIIWords
     )
+  }
+
+  private reverseArrayManipulations() {
+    for (let index = 0; index < 2; index++) {
+      storage.arrayASCIIWords = arrayManipulation.splitASCIIArray(
+        storage.arrayASCIIWords.reverse()
+      ) as number[]
+
+      storage.arrayASCIIWords = arrayManipulation.reorderASCIIArray(
+        storage.arrayASCIIWords.reverse()
+      ) as number[]
+    }
   }
 
   public separateEncryptText(encryptedWord: string) {
