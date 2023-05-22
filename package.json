@@ -2,7 +2,13 @@
   "name": "server-encrypt",
   "version": "1.0.0",
   "description": "",
+  "author": "Sneuder",
+  "license": "ISC",
   "main": "index.js",
+  "engines": {
+    "node": "16.14.1",
+    "npm": "8.5.0"
+  },
   "scripts": {
     "dev": "ts-node-dev index.ts",
     "start": "node build/index.js",
@@ -13,8 +19,6 @@
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
   },
-  "author": "Sneuder",
-  "license": "ISC",
   "dependencies": {
     "express": "4.18.2",
     "joi": "17.9.2"
