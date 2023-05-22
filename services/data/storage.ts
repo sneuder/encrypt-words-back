@@ -1,37 +1,65 @@
 import ArrayToProcess from '../../interface/ArrayToProcess'
 
 class Storage {
-  private _arrayASCIIWords: number[] = []
-  private _arrayASCIIKeyWord: number[] = []
-  private _arrayASCIIPositions: number[] = []
+  private _arrayTextWords: string[] = []
+  private _arrayTextKeyWords: string[] = []
+  private _arrayTextPositions: string[] = []
+
+  private _arrayASCIIWords: (string | number)[] = []
+  private _arrayASCIIKeyWords: (string | number)[] = []
+  private _arrayASCIIPositions: (string | number)[] = []
 
   private _stringASCIIWords: string = ''
-  private _stringASCIIKeyWord: string = ''
+  private _stringASCIIKeyWords: string = ''
   private _stringASCIIPositions: string = ''
 
   private _arrayToProcessToASCII: ArrayToProcess[] = []
 
-  public set arrayASCIIWords(value: number[]) {
+  public set arrayTextWords(value: string[]) {
+    this._arrayTextWords = value
+  }
+
+  public get arrayTextWords(): string[] {
+    return this._arrayTextWords
+  }
+
+  public set arrayTextKeyWords(value: string[]) {
+    this._arrayTextKeyWords = value
+  }
+
+  public get arrayTextKeyWords(): string[] {
+    return this._arrayTextKeyWords
+  }
+
+  public set arrayTextPositions(value: string[]) {
+    this._arrayTextPositions = value
+  }
+
+  public get arrayTextPositions(): string[] {
+    return this._arrayTextPositions
+  }
+
+  public set arrayASCIIWords(value: (string | number)[]) {
     this._arrayASCIIWords = value
   }
 
-  public get arrayASCIIWords(): number[] {
+  public get arrayASCIIWords(): (string | number)[] {
     return this._arrayASCIIWords
   }
 
-  public set arrayASCIIKeyWord(value: number[]) {
-    this._arrayASCIIKeyWord = value
+  public set arrayASCIIKeyWords(value: (string | number)[]) {
+    this._arrayASCIIKeyWords = value
   }
 
-  public get arrayASCIIKeyWord(): number[] {
-    return this._arrayASCIIKeyWord
+  public get arrayASCIIKeyWords(): (string | number)[] {
+    return this._arrayASCIIKeyWords
   }
 
-  public set arrayASCIIPositions(value: number[]) {
+  public set arrayASCIIPositions(value: (string | number)[]) {
     this._arrayASCIIPositions = value
   }
 
-  public get arrayASCIIPositions(): number[] {
+  public get arrayASCIIPositions(): (string | number)[] {
     return this._arrayASCIIPositions
   }
 
@@ -43,12 +71,12 @@ class Storage {
     return this._stringASCIIWords
   }
 
-  public set stringASCIIKeyWord(value: string) {
-    this._stringASCIIKeyWord = value
+  public set stringASCIIKeyWords(value: string) {
+    this._stringASCIIKeyWords = value
   }
 
-  public get stringASCIIKeyWord(): string {
-    return this._stringASCIIKeyWord
+  public get stringASCIIKeyWords(): string {
+    return this._stringASCIIKeyWords
   }
 
   public set stringASCIIPositions(value: string) {
@@ -70,9 +98,9 @@ class Storage {
         string: 'stringASCIIWords',
       },
       {
-        array: 'arrayASCIIKeyWord',
+        array: 'arrayASCIIKeyWords',
         value: keyWord,
-        string: 'stringASCIIKeyWord',
+        string: 'stringASCIIKeyWords',
       },
     ]
 
@@ -89,7 +117,7 @@ class Storage {
   }
 
   public joinEncryptWords() {
-    return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWord}.${storage.stringASCIIPositions}`
+    return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWords}.${storage.stringASCIIPositions}`
   }
 
   public organizeDecryptWords() {

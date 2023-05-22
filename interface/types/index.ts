@@ -1,9 +1,9 @@
 export type ArrayStorage =
   | 'arrayASCIIWords'
-  | 'arrayASCIIKeyWord'
+  | 'arrayASCIIKeyWords'
   | 'arrayASCIIPositions'
 
 export type StringStorage =
   | 'stringASCIIWords'
-  | 'stringASCIIKeyWord'
+  | 'stringASCIIKeyWords'
   | 'stringASCIIPositions'
