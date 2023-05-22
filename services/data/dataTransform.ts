@@ -2,9 +2,15 @@ import storage from './storage'
 
 class DataTransform {
   public fromTextToASCIIArray(textToConvert: string) {
-    return textToConvert
-      .split('')
-      .map((_character, index) => textToConvert.charCodeAt(index))
+    return textToConvert.split('').map((character) => character.charCodeAt(0))
+  }
+
+  public fromASCIIArrayToText(arrayToConvert: number[]) {
+    return arrayToConvert
+      .map((itemToConvert) => {
+        return String.fromCharCode(itemToConvert)
+      })
+      .join('')
   }
 
   public fromASCIIToText(stringToCreate: string, targetArrayASCII: number[]) {

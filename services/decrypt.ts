@@ -3,7 +3,6 @@ import arrayManipulation from './data/arrayManipulation'
 
 class Decrypt {
   public process(textEncrypted: string, textKeywords: string) {
-    // to all chars ASCII
     let [wordsASCII, _keywordsASCII, positionASCII] =
       this.separateComponets(textEncrypted)
 
@@ -22,9 +21,18 @@ class Decrypt {
       numbersKeywordsASCII
     )
 
-    console.log(mumbersWordsASCII)
+    numbersKeywordsASCII = arrayManipulation.splitArrayOfASCII(
+      numbersKeywordsASCII.reverse()
+    )
 
-    return 'Esneider'
+    numbersKeywordsASCII = arrayManipulation.reorderArrayOfASCII(
+      numbersKeywordsASCII.reverse()
+    )
+
+    const textKeyWords =
+      dataTransform.fromASCIIArrayToText(numbersKeywordsASCII)
+
+    return textKeyWords
   }
 
   public separateComponets(encryptedWord: string) {
