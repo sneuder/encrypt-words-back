@@ -1,5 +1,5 @@
 class ArrayManipulation {
-  public reorderArrayOfASCII(arrayASCII: number[]) {
+  public reorderASCIIArray(arrayASCII: number[]) {
     if (arrayASCII.length === 1) return arrayASCII
     let tempItem: number | null = null
 
@@ -14,7 +14,7 @@ class ArrayManipulation {
     }) as number[]
   }
 
-  public splitArrayOfASCII(arrayASCII: number[]) {
+  public splitASCIIArray(arrayASCII: number[]) {
     if (arrayASCII.length === 1) return arrayASCII
 
     const middle = Math.ceil(arrayASCII.length / 2)

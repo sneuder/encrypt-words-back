@@ -21,11 +21,11 @@ class Decrypt {
       numbersKeywordsASCII
     )
 
-    numbersKeywordsASCII = arrayManipulation.splitArrayOfASCII(
+    numbersKeywordsASCII = arrayManipulation.splitASCIIArray(
       numbersKeywordsASCII.reverse()
     )
 
-    numbersKeywordsASCII = arrayManipulation.reorderArrayOfASCII(
+    numbersKeywordsASCII = arrayManipulation.reorderASCIIArray(
       numbersKeywordsASCII.reverse()
     )
 
@@ -43,8 +43,8 @@ class Decrypt {
   private getKeywordsArray(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
-    arrayASCII = arrayManipulation.reorderArrayOfASCII(arrayASCII)
-    arrayASCII = arrayManipulation.splitArrayOfASCII(arrayASCII)
+    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII)
+    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII)
 
     return arrayASCII
   }
@@ -52,8 +52,8 @@ class Decrypt {
   public getKeywords(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
-    arrayASCII = arrayManipulation.reorderArrayOfASCII(arrayASCII)
-    arrayASCII = arrayManipulation.splitArrayOfASCII(arrayASCII)
+    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII)
+    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII)
 
     let textASCII = dataTransform.fromASCIIToText('', arrayASCII)
     return textASCII

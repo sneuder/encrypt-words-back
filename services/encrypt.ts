@@ -18,26 +18,26 @@ class Encrypt {
       )
 
       storage[itemToProcess.array] =
-        arrayManipulation.reorderArrayOfASCII(textASCIIArray)
+        arrayManipulation.reorderASCIIArray(textASCIIArray)
 
-      storage[itemToProcess.array] = arrayManipulation.splitArrayOfASCII(
+      storage[itemToProcess.array] = arrayManipulation.splitASCIIArray(
         storage[itemToProcess.array]
       )
     })
 
-    // reorder arrayword again
-    storage.arrayASCIIWords = arrayManipulation.reorderArrayOfASCII(
+    // reorder arraywords again
+    storage.arrayASCIIWords = arrayManipulation.reorderASCIIArray(
       storage.arrayASCIIWords
     )
 
-    storage.arrayASCIIWords = arrayManipulation.splitArrayOfASCII(
+    storage.arrayASCIIWords = arrayManipulation.splitASCIIArray(
       storage.arrayASCIIWords
     )
 
     // multiply words and arrayword parts
     dataTransform.multiWordsWithKW()
 
-    // from ascii to text
+    // from asciiArray to text
     const arrayToText = storage.arrayToProcessToText()
     arrayToText.forEach((itemToProcess) => {
       storage[itemToProcess.string] = dataTransform.fromASCIIToText(

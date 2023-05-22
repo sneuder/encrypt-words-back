@@ -1,8 +1,6 @@
 import ArrayToProcess from '../../interface/ArrayToProcess'
 
 class Storage {
-  private _encryptedWord: string = ''
-
   private _arrayASCIIWords: number[] = []
   private _arrayASCIIKeyWord: number[] = []
   private _arrayASCIIPositions: number[] = []
@@ -12,14 +10,6 @@ class Storage {
   private _stringASCIIPositions: string = ''
 
   private _arrayToProcessToASCII: ArrayToProcess[] = []
-
-  public set encryptedWord(value: string) {
-    this._encryptedWord = value
-  }
-
-  public get encryptedWord(): string {
-    return this._encryptedWord
-  }
 
   public set arrayASCIIWords(value: number[]) {
     this._arrayASCIIWords = value
