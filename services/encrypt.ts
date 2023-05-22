@@ -11,7 +11,7 @@ class Encrypt {
       arrayWords
     )
 
-    // same process both words and arrayword
+    // same process both words and keywords
     arraysToProcess.forEach((itemToProcess) => {
       const textASCIIArray = dataTransform.fromTextToASCIIArray(
         itemToProcess.value

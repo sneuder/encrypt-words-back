@@ -7,7 +7,7 @@ function keywordsValidator(req: Request, res: Response, next: NextFunction) {
   const [_textASCII, textASCIIkeywords, _positionASCII] =
     decrypt.separateComponets(encrypted)
 
-  if (decrypt.validateKeywords(keywords, textASCIIkeywords)) next()
+  if (decrypt.getKeywords(keywords) === textASCIIkeywords) return next()
   res.json(msg.send(false, 'not working'))
 }
 
