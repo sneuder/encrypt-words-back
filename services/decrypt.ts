@@ -1,50 +1,78 @@
+import storage from './data/storage'
 import dataTransform from './data/dataTransform'
 import arrayManipulation from './data/arrayManipulation'
 
 class Decrypt {
   public process(textEncrypted: string, textKeywords: string) {
-    let [wordsASCII, _keywordsASCII, positionASCII] =
+    const [wordsEncrypted, keywordsEncrypted, positionsEncrypted] =
       this.separateComponets(textEncrypted)
 
-    let arrayASCIIPositions = dataTransform.fromTextToASCII(
-      positionASCII.split('')
-    )
-    let numbersKeywordsASCII = this.getKeywordsArray(textKeywords)
-    let arrayASCIIWords = this.getWordsArrayASCII(
-      wordsASCII,
-      arrayASCIIPositions
+    this.saveEncryptedInfo(
+      wordsEncrypted,
+      keywordsEncrypted,
+      positionsEncrypted
     )
 
-    let mumbersWordsASCII = dataTransform.fromTextToASCII(arrayASCIIWords)
-    mumbersWordsASCII = dataTransform.divideWordsWithKW(
-      mumbersWordsASCII,
-      numbersKeywordsASCII
+    //
+
+    storage.arrayASCIIPositions = dataTransform.fromTextToASCII(
+      storage.stringASCIIPositions.split('')
     )
 
-    numbersKeywordsASCII = arrayManipulation.splitASCIIArray(
-      numbersKeywordsASCII.reverse()
+    storage.arrayTextWords = this.getWordsArrayText(
+      storage.stringASCIIWords,
+      storage.arrayASCIIPositions
     )
 
-    numbersKeywordsASCII = arrayManipulation.reorderASCIIArray(
-      numbersKeywordsASCII.reverse()
+    // array process
+    storage.arrayASCIIWords = dataTransform.fromTextToASCII(
+      storage.stringASCIIWords.split('')
     )
 
-    const textKeyWords =
-      dataTransform.fromASCIIArrayToText(numbersKeywordsASCII)
+    storage.arrayASCIIKeyWords = this.getKeywordsArrayASCII(textKeywords)
 
-    return textKeyWords
+    //
+
+    storage.arrayTextWords = this.getWordsArrayText(
+      storage.stringASCIIWords,
+      storage.arrayASCIIPositions
+    )
+
+    storage.arrayASCIIWords = dataTransform.fromTextToASCII(
+      storage.arrayTextWords
+    )
+
+    storage.arrayASCIIWords = dataTransform.divideWordsWithKW(
+      storage.arrayASCIIWords,
+      storage.arrayASCIIKeyWords
+    )
+
+    storage.stringASCIIWords = dataTransform.fromASCIIArrayToText(
+      storage.arrayASCIIWords
+    )
+
+    return storage.stringASCIIWords
+  }
+
+  private saveEncryptedInfo(
+    wordsEncrypted: string,
+    keywordsEncrypted: string,
+    positionsEncrypted: string
+  ) {
+    storage.stringASCIIWords = wordsEncrypted
+    storage.stringASCIIKeyWords = keywordsEncrypted
+    storage.stringASCIIPositions = positionsEncrypted
   }
 
   public separateComponets(encryptedWord: string) {
-    const textASCIISeparated = encryptedWord.split('.')
-    return textASCIISeparated
+    return encryptedWord.split('.')
   }
 
-  private getKeywordsArray(keyWordsToValidate: string) {
+  private getKeywordsArrayASCII(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
-    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII)
-    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII)
+    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII) as number[]
+    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII) as number[]
 
     return arrayASCII
   }
@@ -52,14 +80,14 @@ class Decrypt {
   public getKeywords(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
-    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII)
-    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII)
+    arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII) as number[]
+    arrayASCII = arrayManipulation.splitASCIIArray(arrayASCII) as number[]
 
     let textASCII = dataTransform.fromASCIIToText('', arrayASCII)
     return textASCII
   }
 
-  private getWordsArrayASCII(wordsASCII: string, positionsASCII: number[]) {
+  private getWordsArrayText(wordsASCII: string, positionsASCII: number[]) {
     return positionsASCII.map((position) => {
       const partialWordsASCII = wordsASCII.slice(0, position)
       wordsASCII = wordsASCII.slice(position, wordsASCII.length)

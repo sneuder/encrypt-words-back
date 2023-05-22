@@ -1,7 +1,7 @@
 class ArrayManipulation {
-  public reorderASCIIArray(arrayASCII: number[]) {
+  public reorderASCIIArray(arrayASCII: number[] | string[]) {
     if (arrayASCII.length === 1) return arrayASCII
-    let tempItem: number | null = null
+    let tempItem: number | string
 
     return arrayASCII.map((itemASCII, index) => {
       const pointer = index + 1
@@ -11,10 +11,10 @@ class ArrayManipulation {
 
       tempItem = itemASCII
       return arrayASCII[pointer]
-    }) as number[]
+    }) as number[] | string[]
   }
 
-  public splitASCIIArray(arrayASCII: number[]) {
+  public splitASCIIArray(arrayASCII: number[] | string[]) {
     if (arrayASCII.length === 1) return arrayASCII
 
     const middle = Math.ceil(arrayASCII.length / 2)

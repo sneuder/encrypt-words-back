@@ -8,7 +8,7 @@ const schemas = {
     keywords: Joi.string().required(),
   }),
   decrypt: Joi.object({
-    decrypted: Joi.string().required(),
+    encrypted: Joi.string().required(),
     keywords: Joi.string().required(),
   }),
 }

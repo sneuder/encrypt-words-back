@@ -13,26 +13,25 @@ class Encrypt {
 
     // same process both words and keywords
     arraysToProcess.forEach((itemToProcess) => {
-      const textASCIIArray = dataTransform.fromTextToASCIIArray(
-        itemToProcess.value
-      )
+      const arrayASCII = dataTransform.fromTextToASCIIArray(itemToProcess.value)
 
-      storage[itemToProcess.array] =
-        arrayManipulation.reorderASCIIArray(textASCIIArray)
+      storage[itemToProcess.array] = arrayManipulation.reorderASCIIArray(
+        arrayASCII
+      ) as number[]
 
       storage[itemToProcess.array] = arrayManipulation.splitASCIIArray(
         storage[itemToProcess.array]
-      )
+      ) as number[]
     })
 
     // reorder arraywords again
     storage.arrayASCIIWords = arrayManipulation.reorderASCIIArray(
       storage.arrayASCIIWords
-    )
+    ) as number[]
 
     storage.arrayASCIIWords = arrayManipulation.splitASCIIArray(
       storage.arrayASCIIWords
-    )
+    ) as number[]
 
     // multiply words and arrayword parts
     dataTransform.multiWordsWithKW()

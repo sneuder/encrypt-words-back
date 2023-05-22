@@ -1,7 +1,7 @@
 import storage from './storage'
 
 class DataTransform {
-  public fromTextToASCIIArray(textToConvert: string) {
+  public fromTextToASCIIArray(textToConvert: string): number[] {
     return textToConvert.split('').map((character) => character.charCodeAt(0))
   }
 
@@ -13,7 +13,10 @@ class DataTransform {
       .join('')
   }
 
-  public fromASCIIToText(stringToCreate: string, targetArrayASCII: number[]) {
+  public fromASCIIToText(
+    stringToCreate: string,
+    targetArrayASCII: (string | number)[]
+  ) {
     let interval = 0
 
     stringToCreate = targetArrayASCII
@@ -35,7 +38,7 @@ class DataTransform {
   }
 
   // a text composed with letters and numbers to only ascii
-  public fromTextToASCII(targetArrayASCII: string[]): number[] {
+  public fromTextToASCII(targetArrayASCII: string[]) {
     let interval = 0
 
     return targetArrayASCII.map((itemASCII) => {
@@ -46,7 +49,7 @@ class DataTransform {
             interval++
             if (interval % 2 === 0) return Number(subItemASCII)
 
-            const numberASCII = subItemASCII.toUpperCase().charCodeAt(0)
+            const numberASCII = Number(subItemASCII.toUpperCase().charCodeAt(0))
             return this.reverseRangeASCII(numberASCII)
           })
           .join('')
@@ -61,24 +64,23 @@ class DataTransform {
   public multiWordsWithKW() {
     storage.arrayASCIIPositions = []
 
-    storage.arrayASCIIWords = storage.arrayASCIIWords.map(
-      (itemASCII, index) => {
-        let multiplier = storage.arrayASCIIKeyWord[index]
-        // words > keywords
-        if (storage.arrayASCIIKeyWord[index] === undefined) {
-          multiplier = index * 65
-        }
-        // keywords > words
-        if (index === storage.arrayASCIIWords.length - 1) {
-          multiplier = (index + 1) * (index + 1) * 60
-        }
-
-        // default (equal length)
-        const resultOperation = itemASCII * multiplier
-        this.fillPositionArray(resultOperation, index)
-        return resultOperation
+    storage.arrayASCIIWords = storage.arrayASCIIWords.map((subASCII, index) => {
+      const itemASCII = subASCII as number
+      let multiplier = storage.arrayASCIIKeyWords[index] as number
+      // words > keywords
+      if (storage.arrayASCIIKeyWords[index] === undefined) {
+        multiplier = index * 65
       }
-    )
+      // keywords > words
+      if (index === storage.arrayASCIIWords.length - 1) {
+        multiplier = (index + 1) * (index + 1) * 60
+      }
+
+      // default (equal length)
+      const resultOperation = itemASCII * multiplier
+      this.fillPositionArray(resultOperation, index)
+      return resultOperation
+    })
   }
 
   public divideWordsWithKW(
