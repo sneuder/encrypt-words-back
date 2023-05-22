@@ -1,4 +1,5 @@
 import ArrayToProcess from '../../interface/ArrayToProcess'
+import msg from '../msg'
 
 class Storage {
   private _arrayTextWords: string[] = []
@@ -117,7 +118,10 @@ class Storage {
   }
 
   public joinEncryptWords() {
-    return `${storage.stringASCIIWords}.${storage.stringASCIIKeyWords}.${storage.stringASCIIPositions}`
+    return msg.object(
+      'encrypt',
+      `${storage.stringASCIIWords}.${storage.stringASCIIKeyWords}.${storage.stringASCIIPositions}`
+    )
   }
 
   public organizeDecryptWords() {

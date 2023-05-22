@@ -1,11 +1,12 @@
 import storage from './data/storage'
 import dataTransform from './data/dataTransform'
 import arrayManipulation from './data/arrayManipulation'
+import msg from './msg'
 
 class Decrypt {
   public process(textEncrypted: string, textKeywords: string) {
     const [wordsEncrypted, keywordsEncrypted, positionsEncrypted] =
-      this.separateComponets(textEncrypted)
+      this.separateEncryptText(textEncrypted)
 
     this.saveEncryptedInfo(
       wordsEncrypted,
@@ -13,45 +14,28 @@ class Decrypt {
       positionsEncrypted
     )
 
-    //
-
     storage.arrayASCIIPositions = dataTransform.fromTextToASCII(
       storage.stringASCIIPositions.split('')
     )
 
-    storage.arrayTextWords = this.getWordsArrayText(
+    storage.arrayTextWords = this.getTextWords(
       storage.stringASCIIWords,
       storage.arrayASCIIPositions
     )
 
-    // array process
     storage.arrayASCIIWords = dataTransform.fromTextToASCII(
       storage.stringASCIIWords.split('')
     )
 
-    storage.arrayASCIIKeyWords = this.getKeywordsArrayASCII(textKeywords)
+    storage.arrayASCIIKeyWords = this.getASCIIKeywords(textKeywords)
 
-    //
-
-    storage.arrayTextWords = this.getWordsArrayText(
+    storage.arrayTextWords = this.getTextWords(
       storage.stringASCIIWords,
       storage.arrayASCIIPositions
     )
 
-    storage.arrayASCIIWords = dataTransform.fromTextToASCII(
-      storage.arrayTextWords
-    )
-
-    storage.arrayASCIIWords = dataTransform.divideWordsWithKW(
-      storage.arrayASCIIWords,
-      storage.arrayASCIIKeyWords
-    )
-
-    storage.stringASCIIWords = dataTransform.fromASCIIArrayToText(
-      storage.arrayASCIIWords
-    )
-
-    return storage.stringASCIIWords
+    this.transformASCIIWord()
+    return msg.object('decrypt', storage.stringASCIIWords)
   }
 
   private saveEncryptedInfo(
@@ -64,11 +48,26 @@ class Decrypt {
     storage.stringASCIIPositions = positionsEncrypted
   }
 
-  public separateComponets(encryptedWord: string) {
+  private transformASCIIWord() {
+    storage.arrayASCIIWords = dataTransform.fromTextToASCII(
+      storage.arrayTextWords
+    )
+
+    storage.arrayASCIIWords = dataTransform.divideWordsWithKW(
+      storage.arrayASCIIWords,
+      storage.arrayASCIIKeyWords
+    )
+
+    storage.stringASCIIWords = dataTransform.fromASCIIArrayToText(
+      storage.arrayASCIIWords
+    )
+  }
+
+  public separateEncryptText(encryptedWord: string) {
     return encryptedWord.split('.')
   }
 
-  private getKeywordsArrayASCII(keyWordsToValidate: string) {
+  private getASCIIKeywords(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
     arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII) as number[]
@@ -77,7 +76,7 @@ class Decrypt {
     return arrayASCII
   }
 
-  public getKeywords(keyWordsToValidate: string) {
+  public getTextKeywords(keyWordsToValidate: string) {
     let arrayASCII = dataTransform.fromTextToASCIIArray(keyWordsToValidate)
 
     arrayASCII = arrayManipulation.reorderASCIIArray(arrayASCII) as number[]
@@ -87,7 +86,7 @@ class Decrypt {
     return textASCII
   }
 
-  private getWordsArrayText(wordsASCII: string, positionsASCII: number[]) {
+  private getTextWords(wordsASCII: string, positionsASCII: number[]) {
     return positionsASCII.map((position) => {
       const partialWordsASCII = wordsASCII.slice(0, position)
       wordsASCII = wordsASCII.slice(position, wordsASCII.length)
