@@ -4,7 +4,7 @@ import routes from './routes'
 const app = express()
 const router = express.Router()
 
-const PORT = 8080
+const PORT = 8081
 
 // middleware for CORS
 app.use((req, res, next): void => {

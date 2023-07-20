@@ -6,8 +6,8 @@
   "license": "ISC",
   "main": "index.js",
   "engines": {
-    "node": "16.14.1",
-    "npm": "8.5.0"
+    "node": "16.20.0",
+    "npm": "8.19.4"
   },
   "scripts": {
     "dev": "ts-node-dev index.ts",
